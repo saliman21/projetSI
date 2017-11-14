@@ -1,4 +1,4 @@
-*********************Instruction pour git*******************
+﻿*********************Instruction pour git*******************
 
 
  ************************************************
@@ -20,7 +20,7 @@ git config --global core.editor gedit
 
 
 ******************************************************
-					Utiliser git
+		Utiliser git
 
 pour recuperer le projet qui est sur git 
 
