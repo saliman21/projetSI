@@ -11,7 +11,8 @@ void cube (float c);
 void theire (float taille);
 void hyperboloide (float r, float h, int N, float alpha);
 void ellipsoide ();
-void tore (float r, float R, int demi);
+void tore (float r, float R, int demi);//avec barre
+void tore2 (float r, float R, int demi);//sans barre
 void cone (float r,float h);
 
 
@@ -99,17 +100,17 @@ void hyperboloide (float r, float h, int N, float alpha)
   {
     
     glBegin(GL_QUADS);
-    glColor3f(1,0,1);
+    //glColor3f(1,0,1);
     glVertex3f(X[Face[i][0]],Y[Face[i][0]],Z[Face[i][0]]);
     glVertex3f(X[Face[i][1]],Y[Face[i][1]],Z[Face[i][1]]);
-    glColor3f(1,1,0);
+    //glColor3f(1,1,0);
     glVertex3f(X[Face[i][2]],Y[Face[i][2]],Z[Face[i][2]]);
     glVertex3f(X[Face[i][3]],Y[Face[i][3]],Z[Face[i][3]]);
     glEnd();
   }
   /* Dessin des triangles Pole Nord*/
   
-  for( int i=0; i< N ; i++)
+ /* for( int i=0; i< N ; i++)
   {
     
     glBegin(GL_TRIANGLES);
@@ -120,7 +121,7 @@ void hyperboloide (float r, float h, int N, float alpha)
     glVertex3f(X[FaceN[i][2]],Y[FaceN[i][2]],Z[FaceN[i][2]]);
     glEnd();
     
-  }
+  }*/
   /* Dessin des triangles Pole SUD*/
   
   for( int i=0; i< N ; i++)
@@ -130,7 +131,7 @@ void hyperboloide (float r, float h, int N, float alpha)
     glColor3f(1,1,0);
     glVertex3f(X[FaceS[i][0]],Y[FaceS[i][0]],Z[FaceS[i][0]]);
     glVertex3f(0,h*1,0);
-    glColor3f(0,1,1);
+    //glColor3f(0,1,1);
     glVertex3f(X[FaceS[i][2]],Y[FaceS[i][2]],Z[FaceS[i][2]]);
     glEnd();
     
@@ -188,7 +189,7 @@ void tore (float r, float R, int demi)
   
   
     glRotatef(90,1.0,0.0,0.0);
-    for(int i=0;i<=NM-1;i++)
+    for(int i=0;i<=(NM-1);i++)
     {
       for(int j=0; j<=NP-1;j++)
       {
@@ -206,6 +207,74 @@ void tore (float r, float R, int demi)
   
     
 }
+
+
+//construction tore
+//demi =1 alors tore entier
+//demi =2 alors demi tore
+void tore2 (float r, float R, int demi)
+{
+  
+  const int NM=24;// nombre de cercles
+  const int NP=6;// nombre de cotés
+  
+  float CordX[NM*NP];
+  float CordY[NM*NP];//
+  float CordZ[NM*NP];
+  int TabCor[NM*NP][4];
+    
+    //float r= 0.2, R=1.0;
+    
+    float phiT=0, dphiT=2*M_PI/NP;
+    float thetaT=0;
+    float dThetaT=2*M_PI/NM/demi;
+    // indice des sommets
+    for (int i = 0; i <=NM-1 ; i++)
+    {
+      for(int j=0;j <=NP-1; j++){
+        
+        
+        CordX[i*NP+j]=(R+r*cos(j*dphiT+phiT))*sin(i*dThetaT+thetaT);
+        CordY[i*NP+j]=r*sin(j*dphiT+phiT);
+        CordZ[i*NP+j]=(R+r*cos(j*dphiT+phiT))*cos(i*dThetaT+thetaT);
+      }
+    }
+    //indices des faces
+    
+    for (int i = 0; i <=NM-1 ; i++)
+    {
+      for(int j=0;j <=NP-1; j++)
+      {
+        TabCor[i*NP+j][0]=i*NP+j;
+        TabCor[i*NP+j][1]=((i+1)%NM)*NP+j;
+        TabCor[i*NP+j][2]=((i+1)%NM)*NP+((j+1)%NP);
+        TabCor[i*NP+j][3]=i*NP+((j+1)%NP);
+      }
+      
+    }
+  
+  
+  
+    glRotatef(90,1.0,0.0,0.0);
+    for(int i=0;i<=(NM-1)/demi;i++)
+    {
+      for(int j=0; j<=NP-1;j++)
+      {
+        glColor3f(0.5,1.0,1.0);
+        glBegin(GL_QUADS);
+        glVertex3f(CordX[TabCor[i*NP+j][0]],CordY[TabCor[i*NP+j][0]],CordZ[TabCor[i*NP+j][0]]);
+        glVertex3f(CordX[TabCor[i*NP+j][1]],CordY[TabCor[i*NP+j][1]],CordZ[TabCor[i*NP+j][1]]);
+        glVertex3f(CordX[TabCor[i*NP+j][2]],CordY[TabCor[i*NP+j][2]],CordZ[TabCor[i*NP+j][2]]);
+        glVertex3f(CordX[TabCor[i*NP+j][3]],CordY[TabCor[i*NP+j][3]],CordZ[TabCor[i*NP+j][3]]);
+        glEnd();
+      }
+    
+    
+  }
+  
+    
+}
+
 
 //construction theire
 void theire (float taille)
