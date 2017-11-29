@@ -1,5 +1,5 @@
 ﻿*********************Instruction pour git*******************
-
+v1.2
 
  ************************************************
 *si git n'est pas installé sur vos perso (il est installer à la fac)
