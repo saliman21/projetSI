@@ -4,7 +4,8 @@
 #include <GL/freeglut.h>  
 #include <math.h> 
 #include "figures.h" 
-
+#include "texture.h" 
+#include "robot.h"
 void chaise();
 void table(); // a faire
 void piedTable(); // a faire
@@ -17,6 +18,7 @@ void tuiles(); // a faire
 void robots();  // a faire
 void sucre ();  // a faire
 void tasse(); // a faire
+void scene(); // a faire
 
 void robots()
 {}
@@ -24,30 +26,23 @@ void sucre()
 {}
 
 void donuts()
-{
-}
+{}
 
 void tasse()
-{
-}
+{}
 
 
 
 void lampe()
-{
-}
+{}
 
 
 void ouvrantCarton()
-{ 
-}
+{}
 //si 1 semi -ouvert
 //si 2 ouvert
 void carton(int x)
-{
-  
-  
-}
+{}
 
 void chaise()
 {
@@ -89,12 +84,7 @@ glRotatef(90.,0.,1.,0.);
 glRotatef(-35.,1.,0.,0.);
 glRotatef(5.,0.,0.,1.);
 tore(0.5,3,2);
-glPopMatrix(); 
-
-
-
-  
-  
+glPopMatrix();  
 }
 
 
@@ -105,4 +95,35 @@ void piedTable()
 
 void table()
 {}
+void scene()
+{
+    glPushMatrix();
+    //debut Maison
+    glPushMatrix();
+    glBindTexture(GL_TEXTURE_2D, ObjTexture[0]); 
+    glEnable(GL_TEXTURE_2D);
+    //glColor3f(1.,0.,1.);
+      cubeT(0.5);
+     glPopMatrix();// fin maison
+     glDisable(GL_TEXTURE_2D);
+     //debut porte maison
+    glPushMatrix();
+   glTranslatef(0.49, -0.25, 0.0);
+    glScalef(0.05, 0.5, 0.25);
+    //glColor3f(1.,0.,0.);
+   glBindTexture(GL_TEXTURE_2D, ObjTexture[1]); 
+    glEnable(GL_TEXTURE_2D);
+    cubeT(0.5);
+   glPopMatrix();// fin porte maison
+   glDisable(GL_TEXTURE_2D);
+  // debut lampe de la maison
+   glPushMatrix();
+  glTranslatef(0.0, 0.7, 0.0);
+  glRotatef(90, 1.0, 0.0, 0.0);
+  cylindre(0.1, 0.08);
+   glPopMatrix();// fin lampe
+  glPopMatrix();// fin scene
+
+}
+
 
