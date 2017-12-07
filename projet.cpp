@@ -3,12 +3,12 @@
 #include <GL/glut.h>  
 #include <GL/freeglut.h>
 #include <math.h>  
-#include "csg.h" 
+#include "scene.h" 
 
 
 
 #define PI 3.14159265  
-
+float zoom=1;
 
 char presse;  
 int anglex,angley,x,y,xold,yold;  
@@ -20,8 +20,6 @@ void reshape(int x,int y);
 void idle();  
 void mouse(int bouton,int etat,int x,int y);  
 void mousemotion(int x,int y);  
-void pied();
-void table();
 
 
 
@@ -48,27 +46,10 @@ int main(int argc,char **argv)
   glutReshapeFunc(reshape);  
   glutMouseFunc(mouse);  
   glutMotionFunc(mousemotion);  
-  pied();
-  table();
+  
   glutMainLoop();  
   return 0;  
 }  
-void pied()
-{
-  
-  
-  
-  
-}
-
-void table()
-{
-  
- // cylindre (0.1,1);
-  //tore(0.2,0.5,1);
-  //hyperboloide(0.2,0.5,12,0);
-  cone(0.2,0.8);
-}
 
 void affichage()  
 {  
@@ -78,6 +59,13 @@ void affichage()
   int j;  
   /* effacement de l'image avec la couleur de fond */  
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  glOrtho(-zoom,zoom,-zoom,zoom,-zoom,zoom);
+  
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+  
   
   glLoadIdentity();  
   glRotatef(-angley,1.0,0.0,0.0);  
@@ -86,11 +74,9 @@ void affichage()
   /* Dessin  */  
   glColor3f(0.1,0.1,0.5);
   
-  table();
-  //theire(0.1);
-  //sphere(0.5,60,40) ;
-  //cube(0.5);
+  affichageScene();
 
+ 
   //Repère
   //axe x en rouge
   glBegin(GL_LINES);
@@ -105,8 +91,8 @@ void affichage()
   glVertex3f(0, 1,0.0);
   glEnd();
   //axe des z en bleu
-  glBegin(GL_LINES);
-  glColor3f(0.0,0.0,1.0);
+  glBegin(GL_LINES); 
+  glColor3f(0.0,0.0,1.0);  
   glVertex3f(0, 0,0.0);
   glVertex3f(0, 0,1.0);
   glEnd();
@@ -119,7 +105,7 @@ void affichage()
 void clavier(unsigned char touche,int x,int y)  
 {  
   switch (touche)  
-  {  
+  {   
   case 'p': /* affichage du carre plein */  
   glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);  
     glutPostRedisplay();  
@@ -140,6 +126,12 @@ void clavier(unsigned char touche,int x,int y)
     glDisable(GL_DEPTH_TEST);  
     glutPostRedisplay();  
     break;  
+  case 'Z': zoom+= 0.1;
+    glutPostRedisplay();
+    break;
+  case 'z': zoom-= 0.1;
+    glutPostRedisplay();
+    break;
     ////////////////////////   
     
   

@@ -1,3 +1,5 @@
+//amine
+
 #include<stdio.h>  
 #include<stdlib.h>  
 #include <GL/glut.h>
@@ -8,7 +10,6 @@
 void cylindre (double r, double h);
 void sphere (float rayon,int nlat,int nlon);
 void cube (float c);
-void cubeT(float c);
 void theire (float taille);
 void hyperboloide (float r, float h, int N, float alpha);
 void ellipsoide ();
@@ -202,6 +203,8 @@ void tore (float r, float R, int demi)
         glVertex3f(CordX[TabCor[i*NP+j][3]],CordY[TabCor[i*NP+j][3]],CordZ[TabCor[i*NP+j][3]]);
         glEnd();
       }
+    
+    
   }
   
     
@@ -352,61 +355,4 @@ void cube(float c)
   glEnd();
   glPopMatrix();
   
-}
-
-//construction cube (fonctionne) avec coordonnes Textures
-void cubeT(float c)
-{
-      glPushMatrix();
-   //glNormal3f(0.0F,0.0F,1.0F);
-   
-    glBegin(GL_POLYGON);
-    glNormal3f(0.0F,0.0F,-1.0F);
-       glTexCoord2f(0.,0.);glVertex3f(c,c,-c);
-       glTexCoord2f(0.,1.);glVertex3f(c,-c,-c);
-       glTexCoord2f(1.,0.);glVertex3f(-c,-c,-c);
-       glTexCoord2f(1.,1.);glVertex3f(-c,c,-c);
-      glEnd();
-      
-        glBegin(GL_POLYGON);
-        glNormal3f(0.0F,0.0F,1.0F);
-      glTexCoord2f(0.,0.);glVertex3f(c,c,c);
-      glTexCoord2f(0.,1.);glVertex3f(-c,c,c);
-      glTexCoord2f(1.,0.);glVertex3f(-c,-c,c);
-      glTexCoord2f(1.,1.);glVertex3f(c,-c,c); 
-      glEnd();
-      
-      glBegin(GL_POLYGON);
-       glNormal3f(-1.0F,0.0F,0.0F);
-      glTexCoord2f(0.,0.);glVertex3f(-c,c,-c);
-      glTexCoord2f(0.,1.);glVertex3f(-c,-c,-c);
-      glTexCoord2f(1.,0.);glVertex3f(-c,-c,c);
-      glTexCoord2f(1.,1.);glVertex3f(-c,c,c);
-      glEnd(); 
-      
-      glBegin(GL_POLYGON);
-        glNormal3f(1.0F,0.0F,0.0F);
-      glTexCoord2f(0.,0.);glVertex3f(c,c,c);
-      glTexCoord2f(0.,1.);glVertex3f(c,-c,c);
-      glTexCoord2f(1.,0.);glVertex3f(c,-c,-c);
-      glTexCoord2f(1.,1.);glVertex3f(c,c,-c);
-      glEnd();  
-      
-       glBegin(GL_POLYGON);
-      glNormal3f(0.0F,-1.0F,0.0F);
-      glTexCoord2f(0.,0.);glVertex3f(-c,-c,c);
-      glTexCoord2f(0.,1.);glVertex3f(-c,-c,-c);
-      glTexCoord2f(1.,0.);glVertex3f(c,-c,-c);
-      glTexCoord2f(1.,1.);glVertex3f(c,-c,c); 
-      glEnd();  
-      glBegin(GL_POLYGON);
-       glNormal3f(0.0F,1.0F,0.0F);
-      glTexCoord2f(0.,0.);glVertex3f(c,c,c);
-      glTexCoord2f(0.,1.);glVertex3f(c,c,-c);
-      glTexCoord2f(1.,0.);glVertex3f(-c,c,-c);
-      glTexCoord2f(1.,1.);glVertex3f(-c,c,c); 
-       glEnd();
- 
-  glPopMatrix();
-
 }
