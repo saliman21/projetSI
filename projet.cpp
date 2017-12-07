@@ -2,51 +2,63 @@
 #include<stdlib.h>  
 #include <GL/glut.h>  
 #include <GL/freeglut.h>
+#include <GL/gl.h>
 #include <math.h>  
 #include "scene.h" 
+#include <jpeglib.h>
+#include <jerror.h>
+#define PI 3.141592
+#pragma comment (lib, "jpeg.lib");
+#include "lumieres.h"
+#include "controleurs.h"
 
 
-
-#define PI 3.14159265  
-float zoom=1;
-
-char presse;  
-int anglex,angley,x,y,xold,yold;  
-
-
+ 
 void affichage();  
 void clavier(unsigned char touche,int x,int y);  
 void reshape(int x,int y);  
 void idle();  
 void mouse(int bouton,int etat,int x,int y);  
 void mousemotion(int x,int y);  
+void Repere();
+void Initialise();
 
+void Initialise()
+{
+  //Chargement des textures
+  ChargementImages();
+  glutPostRedisplay();
+}
 
 
 
 int main(int argc,char **argv)  
-{  
-  
-  
+{  	
+
+		
   
   glutInit(&argc,argv);  
-  glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);  
+  glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH |GLUT_DOUBLE);  
   glutInitWindowPosition(200,200);  
   glutInitWindowSize(600,600);  
-  glutCreateWindow("Projet 17-18 chez Adele");  
-  
-  glClearColor(0.0,0.0,0.0,0.0);  
+  glutCreateWindow("Projet 17-18 chez Adele"); 
+  Initialise();
+  lumieres();
+   
+  glClearColor(0.0, 0.0, 0.0, 1.0); 
   glColor3f(1.0,1.0,1.0);  
-  glPointSize(2.0);  
+  glPointSize(2.0); 
+  glShadeModel(GL_FLAT); 
   glEnable(GL_DEPTH_TEST);  
   
+  /*Inittialisation des textures*/
   
   glutDisplayFunc(affichage);  
   glutKeyboardFunc(clavier);  
   glutReshapeFunc(reshape);  
   glutMouseFunc(mouse);  
-  glutMotionFunc(mousemotion);  
-  
+  glutMotionFunc(mousemotion); 
+
   glutMainLoop();  
   return 0;  
 }  
@@ -56,29 +68,38 @@ void affichage()
   /*Application des transfos de visualisation */  
   //glRotated(r,0.0,1.0,0.0);  
   //glTranslatef(-px,0.0,-pz);  
-  int j;  
+   
   /* effacement de l'image avec la couleur de fond */  
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   glOrtho(-zoom,zoom,-zoom,zoom,-zoom,zoom);
   
-  glMatrixMode(GL_MODELVIEW);
+  /*glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  
-  
-  glLoadIdentity();  
+  gluLookAt(0.0, 1.0, 1.5, 0., 0., 0.0, 0.0, 1.0, 0.0);*/
   glRotatef(-angley,1.0,0.0,0.0);  
   glRotatef(-anglex,0.0,1.0,0.0);  
   
-  /* Dessin  */  
-  glColor3f(0.1,0.1,0.5);
   
+  glPushMatrix();
   affichageScene();
+  glPopMatrix();
+ //Repère
+   // Repere();
+  /*glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  gluPerspective(70, 1, 0.001, 10);*/
+    glFlush();  
+  //glutPostRedisplay(); 
+  /* On echange les buffers */  
+  glutSwapBuffers();  
+}  
 
- 
-  //Repère
-  //axe x en rouge
+/* Dessin  */  
+void Repere()
+{
+//axe x en rouge
   glBegin(GL_LINES);
   glColor3f(1.0,0.0,0.0);
   glVertex3f(0, 0,0.0);
@@ -96,86 +117,8 @@ void affichage()
   glVertex3f(0, 0,0.0);
   glVertex3f(0, 0,1.0);
   glEnd();
-  glFlush();  
-  
-  /* On echange les buffers */  
-  glutSwapBuffers();  
-}  
+}
 
-void clavier(unsigned char touche,int x,int y)  
-{  
-  switch (touche)  
-  {   
-  case 'p': /* affichage du carre plein */  
-  glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);  
-    glutPostRedisplay();  
-    break;  
-  case 'f': /* affichage en mode fil de fer */  
-  glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);  
-    glutPostRedisplay();  
-    break;  
-  case 's' : /* Affichage en mode sommets seuls */  
-  glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);  
-    glutPostRedisplay();  
-    break;  
-  case 'd':  
-    glEnable(GL_DEPTH_TEST);  
-    glutPostRedisplay();  
-    break;  
-  case 'D':  
-    glDisable(GL_DEPTH_TEST);  
-    glutPostRedisplay();  
-    break;  
-  case 'Z': zoom+= 0.1;
-    glutPostRedisplay();
-    break;
-  case 'z': zoom-= 0.1;
-    glutPostRedisplay();
-    break;
-    ////////////////////////   
-    
-  
-    ////////////////////////////  
-  case 'q' : /*la touche 'q' permet de quitter le programme */  
-    exit(0);  
-  }  
-}  
 
-void reshape(int x,int y)  
-{  
-  if (x<y)  
-    glViewport(0,(y-x)/2,x,x);  
-  else   
-    glViewport((x-y)/2,0,y,y);  
-}  
 
-void mouse(int button, int state,int x,int y)  
-{  
-  /* si on appuie sur le bouton gauche */  
-  if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)   
-  {  
-    presse = 1; /* le booleen presse passe a 1 (vrai) */  
-  xold = x; /* on sauvegarde la position de la souris */  
-  yold=y;  
-  }  
-  /* si on relache le bouton gauche */  
-  if (button == GLUT_LEFT_BUTTON && state == GLUT_UP)   
-    presse=0; /* le booleen presse passe a 0 (faux) */  
-}  
-
-void mousemotion(int x,int y)  
-{  
-  if (presse) /* si le bouton gauche est presse */  
-  {  
-    /* on modifie les angles de rotation de l'objet 
-     en fonction de la position actuelle de la souris et de la derniere 
-     position sauvegardee */  
-    anglex=anglex+(x-xold);   
-    angley=angley+(y-yold);  
-    glutPostRedisplay(); /* on demande un rafraichissement de l'affichage */  
-  }  
-  
-  xold=x; /* sauvegarde des valeurs courante de le position de la souris */  
-    yold=y;  
-}  
 

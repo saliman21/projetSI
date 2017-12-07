@@ -1,5 +1,3 @@
-//amine
-
 #include<stdio.h>  
 #include<stdlib.h>  
 #include <GL/glut.h>
@@ -10,13 +8,32 @@
 void cylindre (double r, double h);
 void sphere (float rayon,int nlat,int nlon);
 void cube (float c);
+void cubeT(float c);
 void theire (float taille);
 void hyperboloide (float r, float h, int N, float alpha);
 void ellipsoide ();
-void tore (float r, float R, int demi);//avec barre
-void tore2 (float r, float R, int demi);//sans barre
+void tore (float r, float R, int demi);  // avec barre
+void tore2 (float r, float R, int demi); // sans barre
+void tore3 (float r, float R, int demi); // pour tuiles
 void cone (float r,float h);
+//void Ellipsoloide(float radiusX, float radiusY);
+//const float DEG2RAD = 3.14159/180.0;
 
+
+/*void Ellipsoloide(float xradius, float radiusY)
+{
+  int i;
+  
+  glBegin(GL_LINE_LOOP);
+  
+  for(int i=0; i < 360; i++)
+  {
+    //convert degrees into radians
+    float degInRad = i*DEG2RAD;
+    glVertex2f(cos(degInRad)*xradius,sin(degInRad)*radiusY);
+  } 
+  glEnd();
+}*/
 
 //construction ellipsoide
 void cone (float r,float h)
@@ -195,7 +212,7 @@ void tore (float r, float R, int demi)
     {
       for(int j=0; j<=NP-1;j++)
       {
-        glColor3f(0.5,1.0,1.0);
+     //   glColor3f(0.5,1.0,1.0);
         glBegin(GL_QUADS);
         glVertex3f(CordX[TabCor[i*NP+j][0]],CordY[TabCor[i*NP+j][0]],CordZ[TabCor[i*NP+j][0]]);
         glVertex3f(CordX[TabCor[i*NP+j][1]],CordY[TabCor[i*NP+j][1]],CordZ[TabCor[i*NP+j][1]]);
@@ -203,8 +220,6 @@ void tore (float r, float R, int demi)
         glVertex3f(CordX[TabCor[i*NP+j][3]],CordY[TabCor[i*NP+j][3]],CordZ[TabCor[i*NP+j][3]]);
         glEnd();
       }
-    
-    
   }
   
     
@@ -262,7 +277,7 @@ void tore2 (float r, float R, int demi)
     {
       for(int j=0; j<=NP-1;j++)
       {
-        glColor3f(0.5,1.0,1.0);
+        //glColor3f(0.5,1.0,1.0);
         glBegin(GL_QUADS);
         glVertex3f(CordX[TabCor[i*NP+j][0]],CordY[TabCor[i*NP+j][0]],CordZ[TabCor[i*NP+j][0]]);
         glVertex3f(CordX[TabCor[i*NP+j][1]],CordY[TabCor[i*NP+j][1]],CordZ[TabCor[i*NP+j][1]]);
@@ -278,6 +293,72 @@ void tore2 (float r, float R, int demi)
 }
 
 
+//construction tore
+//demi =1 alors tore entier
+//demi =2 alors demi tore
+void tore3 (float r, float R, int demi)
+{
+  
+  const int NM=50;// nombre de cercles
+  const int NP=25;// nombre de cotés
+  
+  float CordX[NM*NP];
+  float CordY[NM*NP];//
+  float CordZ[NM*NP];
+  int TabCor[NM*NP][4];
+  
+  //float r= 0.2, R=1.0;
+  
+  float phiT=0, dphiT=2*M_PI/NP;
+  float thetaT=0;
+  float dThetaT=2*M_PI/NM/demi;
+  // indice des sommets
+  for (int i = 0; i <=NM-1 ; i++)
+  {
+    for(int j=0;j <=NP-1; j++){
+      
+      
+      CordX[i*NP+j]=(R+r*cos(j*dphiT+phiT))*sin(i*dThetaT+thetaT);
+      CordY[i*NP+j]=r*sin(j*dphiT+phiT);
+      CordZ[i*NP+j]=(R+r*cos(j*dphiT+phiT))*cos(i*dThetaT+thetaT);
+    }
+  }
+  //indices des faces
+  
+  for (int i = 0; i <=NM-1 ; i++)
+  {
+    for(int j=0;j <=NP-1; j++)
+    {
+      TabCor[i*NP+j][0]=i*NP+j;
+      TabCor[i*NP+j][1]=((i+1)%NM)*NP+j;
+      TabCor[i*NP+j][2]=((i+1)%NM)*NP+((j+1)%NP);
+      TabCor[i*NP+j][3]=i*NP+((j+1)%NP);
+    }
+    
+  }
+  
+  
+  
+  glRotatef(90,1.0,0.0,0.0);
+  for(int i=0;i<=(NM-1)/demi;i++)
+  {
+    for(int j=0; j<=(NP-1)/2;j++)
+    {
+      //glColor3f(0.5,1.0,1.0);
+      glBegin(GL_QUADS);
+      glVertex3f(CordX[TabCor[i*NP+j][0]],CordY[TabCor[i*NP+j][0]],CordZ[TabCor[i*NP+j][0]]);
+      glVertex3f(CordX[TabCor[i*NP+j][1]],CordY[TabCor[i*NP+j][1]],CordZ[TabCor[i*NP+j][1]]);
+      glVertex3f(CordX[TabCor[i*NP+j][2]],CordY[TabCor[i*NP+j][2]],CordZ[TabCor[i*NP+j][2]]);
+      glVertex3f(CordX[TabCor[i*NP+j][3]],CordY[TabCor[i*NP+j][3]],CordZ[TabCor[i*NP+j][3]]);
+      glEnd();
+    }
+    
+    
+  }
+  
+  
+}
+
 //construction theire
 void theire (float taille)
 {
@@ -291,8 +372,10 @@ glutSolidCylinder(r,h,20,20);
 }
 
 //construction sphere (fonctionne)
-void sphere(float rayon,int nlat,int nlon) {
-  for ( int i = 0 ; i < nlat ; i++ ) {
+void sphere(float rayon,int nlat,int nlon) 
+{		  float tx1, ty1;
+  for ( int i = 0 ; i < nlat ; i++ ) 
+  {
     float a1 = -M_PI/2.0F + i*M_PI/nlat ;
     float a2 = a1 + M_PI/nlat ;
     float cs1 = cos(a1);
@@ -355,4 +438,61 @@ void cube(float c)
   glEnd();
   glPopMatrix();
   
+}
+
+//construction cube (fonctionne) avec coordonnes Textures
+void cubeT(float c)
+{
+      glPushMatrix();
+   //glNormal3f(0.0F,0.0F,1.0F);
+   
+    glBegin(GL_POLYGON);
+    glNormal3f(0.0F,0.0F,-1.0F);
+       glTexCoord2f(0.,0.);glVertex3f(c,c,-c);
+       glTexCoord2f(0.,1.);glVertex3f(c,-c,-c);
+       glTexCoord2f(1.,0.);glVertex3f(-c,-c,-c);
+       glTexCoord2f(1.,1.);glVertex3f(-c,c,-c);
+      glEnd();
+      
+       glBegin(GL_POLYGON);
+        glNormal3f(0.0F,0.0F,1.0F);
+      glTexCoord2f(0.,0.);glVertex3f(c,c,c);
+      glTexCoord2f(0.,1.);glVertex3f(-c,c,c);
+      glTexCoord2f(1.,0.);glVertex3f(-c,-c,c);
+      glTexCoord2f(1.,1.);glVertex3f(c,-c,c); 
+      glEnd();
+      
+      glBegin(GL_POLYGON);
+       glNormal3f(-1.0F,0.0F,0.0F);
+      glTexCoord2f(0.,0.);glVertex3f(-c,c,-c);
+      glTexCoord2f(0.,1.);glVertex3f(-c,-c,-c);
+      glTexCoord2f(1.,0.);glVertex3f(-c,-c,c);
+      glTexCoord2f(1.,1.);glVertex3f(-c,c,c);
+      glEnd(); 
+      
+      glBegin(GL_POLYGON);
+        glNormal3f(1.0F,0.0F,0.0F);
+      glTexCoord2f(0.,0.);glVertex3f(c,c,c);
+      glTexCoord2f(0.,1.);glVertex3f(c,-c,c);
+      glTexCoord2f(1.,0.);glVertex3f(c,-c,-c);
+      glTexCoord2f(1.,1.);glVertex3f(c,c,-c);
+      glEnd();  
+      
+       glBegin(GL_POLYGON);
+      glNormal3f(0.0F,-1.0F,0.0F);
+      glTexCoord2f(0.,0.);glVertex3f(-c,-c,c);
+      glTexCoord2f(0.,1.);glVertex3f(-c,-c,-c);
+      glTexCoord2f(1.,0.);glVertex3f(c,-c,-c);
+      glTexCoord2f(1.,1.);glVertex3f(c,-c,c); 
+      glEnd();  
+      glBegin(GL_POLYGON);
+       glNormal3f(0.0F,1.0F,0.0F);
+      glTexCoord2f(0.,0.);glVertex3f(c,c,c);
+      glTexCoord2f(0.,1.);glVertex3f(c,c,-c);
+      glTexCoord2f(1.,0.);glVertex3f(-c,c,-c);
+      glTexCoord2f(1.,1.);glVertex3f(-c,c,c); 
+       glEnd();
+ 
+  glPopMatrix();
+
 }
