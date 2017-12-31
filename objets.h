@@ -6,6 +6,7 @@
 #include "figures.h" 
 #include "texture.h" 
 #include "robot.h"
+<<<<<<< HEAD
 
 void chaise(); //mis
 void table(); //mis
@@ -23,6 +24,25 @@ void tasse(); //mis
 void theiere(float x);//mis
 void assiette(); //aFaire
 
+=======
+
+void chaise();
+void table(); 
+void piedTable(); 
+void carton(int x); 
+void ouvrantCarton(); 
+void lampe(); 
+void donuts(); 
+void truffes(); 
+void tuiles(); //aFaire
+void livre(); //Afaire
+void robots(); 
+void sucre (); 
+void tasse(); 
+void theiere(float x);
+void assiette(); //aFaire
+
+>>>>>>> V1.2_M
 void assiette()
 {}
 
@@ -34,6 +54,7 @@ void livre()
 {}
 
 void tuiles()
+<<<<<<< HEAD
 {}
 
 void truffes()
@@ -43,6 +64,17 @@ void truffes()
 void robots()
 {}
 
+=======
+{}
+
+void truffes()
+{}
+
+
+void robots()
+{}
+
+>>>>>>> V1.2_M
 void sucre()
 {
 	glPushMatrix();
@@ -237,9 +269,15 @@ glRotatef(-35.,1.,0.,0.);
 glRotatef(5.,0.,0.,1.);
 tore(0.5,3,2);
 glPopMatrix(); 
+<<<<<<< HEAD
 
 
 
+=======
+
+
+
+>>>>>>> V1.2_M
   
   
 }
