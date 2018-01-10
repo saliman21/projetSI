@@ -8,7 +8,7 @@
 
 unsigned char image[256*256*3];
 //Identifiants des textures
-static GLuint ObjTexture[7];
+static GLuint ObjTexture[11];
 
 
 void ChargementImages();
@@ -16,33 +16,45 @@ void loadJpegImage(char *fichier);
 void ChargementImages()
 {
   //Génération d'objets textures
-  glGenTextures(7, ObjTexture);
+  glGenTextures(11, ObjTexture);
 
   //Association de l'image dans le tableau d'idntifiant de texture
-  glBindTexture(GL_TEXTURE_2D, ObjTexture[0]);
+  glBindTexture(GL_TEXTURE_2D, ObjTexture[0]);// Mur
   /* Chargement de l'image */
   loadJpegImage("textures/brique1.jpg");
 
-  glBindTexture(GL_TEXTURE_2D, ObjTexture[1]);
-  loadJpegImage("textures/sucre.jpg");
+  glBindTexture(GL_TEXTURE_2D, ObjTexture[1]);//sucre
+  loadJpegImage("textures/sucre1.jpg");
 
-  glBindTexture(GL_TEXTURE_2D, ObjTexture[2]);
-  loadJpegImage("textures/sol.jpg");
-
-   glBindTexture(GL_TEXTURE_2D, ObjTexture[3]);
-  loadJpegImage("textures/cartonB.jpg");
+  glBindTexture(GL_TEXTURE_2D, ObjTexture[2]);//sol
+   loadJpegImage("textures/sol.jpg");
   
-  glBindTexture(GL_TEXTURE_2D, ObjTexture[4]);
-  loadJpegImage("textures/bois.jpg");
+  glBindTexture(GL_TEXTURE_2D, ObjTexture[3]);//carton
+  loadJpegImage("textures/carton.jpg");
 	
-	glBindTexture(GL_TEXTURE_2D, ObjTexture[5]);
+	glBindTexture(GL_TEXTURE_2D, ObjTexture[4]);//livre
 	loadJpegImage("textures/livre.jpg");
   
-	glBindTexture(GL_TEXTURE_2D, ObjTexture[6]);
-	loadJpegImage("textures/boisC.jpg");
+	glBindTexture(GL_TEXTURE_2D, ObjTexture[5]);//table ronde
+	loadJpegImage("textures/tableRonde.jpg");
 	
-	
+	glBindTexture(GL_TEXTURE_2D, ObjTexture[6]);// theire
+  loadJpegImage("textures/bois.jpg");
+
+  glBindTexture(GL_TEXTURE_2D, ObjTexture[7]);// chaise 
+  loadJpegImage("textures/fauteil.jpg");
+
+  glBindTexture(GL_TEXTURE_2D, ObjTexture[8]);// truffes
+  loadJpegImage("textures/truffe.jpg");
+
+
+  glBindTexture(GL_TEXTURE_2D, ObjTexture[9]);// donuts
+  loadJpegImage("textures/amande.jpg");
+
+  glBindTexture(GL_TEXTURE_2D, ObjTexture[10]);// tuiles
+  loadJpegImage("textures/peau.jpg");
 }
+
 void loadJpegImage(char *fichier)
 {
   struct jpeg_decompress_struct cinfo;

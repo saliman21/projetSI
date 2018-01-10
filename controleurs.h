@@ -7,7 +7,7 @@
 
 
 
-float zoom=2.,zoom_OnCenter=0.;
+float Look_x=0.,Look_y=3., Look_z=1.5;
 
 char presse;  
 int anglex,angley,x,y,xold,yold;  
@@ -22,11 +22,15 @@ void createMenu() {
   
   menu = glutCreateMenu(clavierMenu);
   
-  glutAddMenuEntry("Allumage lumiere piece",1);
-  glutAddMenuEntry("Extinction lumiere piece",2);
-  glutAddMenuEntry("Allumage Lumiere Lampe ",3);
-  glutAddMenuEntry("Extinction lumiere Lampe ",4);
-  glutAddMenuEntry("Animation ",6);
+  
+  glutAddMenuEntry(" Eteindre la piece",1);
+  glutAddMenuEntry("Allumer la lumire 1 de la piece",2);
+  glutAddMenuEntry("Eteindre la lumire 1 de la piece",3);
+  glutAddMenuEntry("Allumer la lumire 2 de la piece ",4);
+  glutAddMenuEntry("Eteindre  la lumire 2 de la piece",5);
+  glutAddMenuEntry(" Allumer la lampe",6);
+  glutAddMenuEntry(" Eteindre  la lampe",7);
+  glutAddMenuEntry("Animation ",8);
   glutAttachMenu(GLUT_RIGHT_BUTTON);
   glutDetachMenu(GLUT_LEFT_BUTTON);
 }
@@ -40,45 +44,39 @@ void clavierMenu(int x)
 {
   switch(x)
   {
-  case 1:/* bascule brouillard */
-    if (Brouillard)
-      glEnable(GL_FOG);
-    else
-      glDisable(GL_FOG);
-    Brouillard = 1 - Brouillard;
+  case 1: /* eteindre  eclairage */
+	if (Eclairage)
+     glDisable(GL_LIGHTING);
+     else 
+     glEnable(GL_LIGHTING);
+     Eclairage=1-Eclairage;
     glutPostRedisplay();
     break;
-  case 2: //Bascule de la lumière 1
-    if (lumiere1)
-      glEnable(GL_LIGHT1);
-    else glDisable(GL_LIGHT1);
-    lumiere1 = 1 - lumiere1;
+     case 2: 
+      glEnable(GL_LIGHT1);    
+	glutPostRedisplay();
+	break;
+   case 3: /* allumuer  */
+      glDisable(GL_LIGHT1);
     glutPostRedisplay();
     break;
-  case 3: //Bascule de la lumière 0
-    if (lumiere0)
-      glEnable(GL_LIGHT0);
-    else glDisable(GL_LIGHT0);
-    lumiere0 = 1 - lumiere0;
+     case 4: /* eteindre  lampe */
+     glEnable(GL_LIGHT2);   
+	glutPostRedisplay();
+	break;
+	case 5: /* allumuer lumiere 2 */
+       glDisable(GL_LIGHT2);
     glutPostRedisplay();
     break;
-  case 4: /* bascule eclairage */
-    if (Eclairage)
-      glEnable(GL_LIGHTING);
-    else
-      glDisable(GL_LIGHTING);
-    Eclairage = 1 - Eclairage;
-    glutPostRedisplay();
-    
-    break;
-  case 5: //Bascule de la lumière 0
-    if (lumiere0)
-      glEnable(GL_LIGHT0);
-    else glDisable(GL_LIGHT0);
-    lumiere2 = 1 - lumiere2;
+     case 6: /* eteindre lumiere 2 */
+    glEnable(GL_LIGHT0);
+	glutPostRedisplay();
+	break;
+	case 7: /* allumuer lumiere 2 */
+       glDisable(GL_LIGHT0);
     glutPostRedisplay();
     break;
-  case 6: //animation
+	case 8: //animation
     play=1;
     break;
   }
@@ -108,68 +106,40 @@ void clavier(unsigned char touche,int x,int y)
     glDisable(GL_DEPTH_TEST);  
     glutPostRedisplay();  
     break;  
-  case 'Z': zoom+= 0.1;
+  case 'Z': Look_z+= 0.1;//Zoomer 
     glutPostRedisplay();
     break;
-  case 'z': zoom-= 0.1;
+  case 'z': Look_z-= 0.1;// Dezoomer
     glutPostRedisplay();
-    break;
-  case '5':/* bascule brouillard */
-  if (Brouillard)
-    glEnable(GL_FOG);
-  else
-    glDisable(GL_FOG);
-  Brouillard = 1 - Brouillard;
-  glutPostRedisplay();
-  break;
-  case 'L': //Bascule de la lumière 1
-    if (lumiere1)
-      glEnable(GL_LIGHT1);
-    else glDisable(GL_LIGHT1);
-    lumiere1 = 1 - lumiere1;
-    glutPostRedisplay();
-    break;
-  case 'l': //Bascule de la lumière 0
-    if (lumiere0)
-      glEnable(GL_LIGHT0);
-    else glDisable(GL_LIGHT0);
-    lumiere0 = 1 - lumiere0;
-    glutPostRedisplay();
-    break;
-  case 'S': /* bascule eclairage */
-  if (Eclairage)
-    glEnable(GL_LIGHTING);
-  else
-    glDisable(GL_LIGHTING);
-  Eclairage = 1 - Eclairage;
-  glutPostRedisplay();
-
-  break;
- case 't': //Bascule de la lumière 0
-    if (lumiere0)
-      glEnable(GL_LIGHT0);
-    else glDisable(GL_LIGHT0);
-    lumiere2 = 1 - lumiere2;
-    glutPostRedisplay();
-    break;
-case 'C':
-zoom_OnCenter += 0.01;
-glutPostRedisplay();
-break;
-case 'c':	// zOOMER
-zoom_OnCenter -= 0.01;
-glutPostRedisplay();
-break;
-    
-    ////////////////////////   
-    
-  
-    ////////////////////////////  
+    break; 
   case 'q' : /*la touche 'q' permet de quitter le programme */  
     exit(0);  
   }  
-}  
+} 
 
+/* Clavier permettant de gerer la camera par les touches directionnelles*/
+void clavier2( int touche, int x, int y)
+{
+	switch (touche)
+	{
+		case GLUT_KEY_DOWN:
+			Look_y -= 1.0;
+			glutPostRedisplay();
+			break;
+		case GLUT_KEY_UP:
+			Look_y += 1.0;
+			glutPostRedisplay();
+			break;
+		case GLUT_KEY_LEFT:
+			Look_x -= 1.0;
+			glutPostRedisplay();
+			break;
+		case GLUT_KEY_RIGHT:
+			Look_x += 1.0;
+			glutPostRedisplay();
+			break;
+	}
+}
 void reshape(int x,int y)  
 {  
   if (x<y)

@@ -16,28 +16,6 @@ void tore (float r, float R, int demi);  // avec barre
 void tore2 (float r, float R, int demi); // sans barre
 void tore3 (float r, float R, int demi); // pour tuiles
 void cone (float r,float h);
-<<<<<<< HEAD
-=======
-//void Ellipsoloide(float radiusX, float radiusY);
-//const float DEG2RAD = 3.14159/180.0;
-
-
-/*void Ellipsoloide(float xradius, float radiusY)
-{
-  int i;
-  
-  glBegin(GL_LINE_LOOP);
-  
-  for(int i=0; i < 360; i++)
-  {
-    //convert degrees into radians
-    float degInRad = i*DEG2RAD;
-    glVertex2f(cos(degInRad)*xradius,sin(degInRad)*radiusY);
-  } 
-  glEnd();
-}*/
-
->>>>>>> V1.2_A
 //construction ellipsoide
 void cone (float r,float h)
 {glutSolidCone(r,h, 20,20);}
@@ -150,10 +128,10 @@ void hyperboloide (float r, float h, int N, float alpha)
   {
     
     glBegin(GL_TRIANGLES);
-    //glColor3f(1,1,0);
+  
     glVertex3f(X[FaceS[i][0]],Y[FaceS[i][0]],Z[FaceS[i][0]]);
     glVertex3f(0,h*1,0);
-    //glColor3f(0,1,1);
+   
     glVertex3f(X[FaceS[i][2]],Y[FaceS[i][2]],Z[FaceS[i][2]]);
     glEnd();
     
@@ -179,7 +157,7 @@ void tore (float r, float R, int demi)
   float CordZ[NM*NP];
   int TabCor[NM*NP][4];
     
-    //float r= 0.2, R=1.0;
+    
     
     float phiT=0, dphiT=2*M_PI/NP;
     float thetaT=0;
@@ -216,11 +194,7 @@ void tore (float r, float R, int demi)
     {
       for(int j=0; j<=NP-1;j++)
       {
-<<<<<<< HEAD
      
-=======
-     //   glColor3f(0.5,1.0,1.0);
->>>>>>> V1.2_A
         glBegin(GL_QUADS);
 
      glTexCoord2f(thetaT/(2*M_PI),phiT/(2*M_PI));
@@ -295,11 +269,7 @@ void tore2 (float r, float R, int demi)
     {
       for(int j=0; j<=NP-1;j++)
       {
-<<<<<<< HEAD
         
-=======
-        //glColor3f(0.5,1.0,1.0);
->>>>>>> V1.2_A
         glBegin(GL_QUADS);
 
         glTexCoord2f(thetaT/(2*M_PI),phiT/(2*M_PI));
@@ -379,7 +349,6 @@ void tore3 (float r, float R, int demi)
   {
     for(int j=0; j<=(NP-1)/2;j++)
     {
-<<<<<<< HEAD
       
       glBegin(GL_QUADS);
 
@@ -398,14 +367,6 @@ void tore3 (float r, float R, int demi)
 
       glVertex3f(CordX[TabCor[i*NP+j][3]],CordY[TabCor[i*NP+j][3]],CordZ[TabCor[i*NP+j][3]]);
 
-=======
-      //glColor3f(0.5,1.0,1.0);
-      glBegin(GL_QUADS);
-      glVertex3f(CordX[TabCor[i*NP+j][0]],CordY[TabCor[i*NP+j][0]],CordZ[TabCor[i*NP+j][0]]);
-      glVertex3f(CordX[TabCor[i*NP+j][1]],CordY[TabCor[i*NP+j][1]],CordZ[TabCor[i*NP+j][1]]);
-      glVertex3f(CordX[TabCor[i*NP+j][2]],CordY[TabCor[i*NP+j][2]],CordZ[TabCor[i*NP+j][2]]);
-      glVertex3f(CordX[TabCor[i*NP+j][3]],CordY[TabCor[i*NP+j][3]],CordZ[TabCor[i*NP+j][3]]);
->>>>>>> V1.2_A
       glEnd();
     }
     
@@ -415,11 +376,8 @@ void tore3 (float r, float R, int demi)
   
 }
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> V1.2_A
 //construction theire
 void theire (float taille)
 {
@@ -432,7 +390,6 @@ void cylindre (double r, double h)
 glutSolidCylinder(r,h,20,20);
 }
 
-<<<<<<< HEAD
 //construction sphere  modifier(fonctionne)
 
 void sphere(float rayon,int nlat,int nlon) 
@@ -472,33 +429,6 @@ void sphere(float rayon,int nlat,int nlon)
       theta +=incr_theta;
     }
   glEnd();
-=======
-//construction sphere (fonctionne)
-void sphere(float rayon,int nlat,int nlon) 
-{		  float tx1, ty1;
-  for ( int i = 0 ; i < nlat ; i++ ) 
-  {
-    float a1 = -M_PI/2.0F + i*M_PI/nlat ;
-    float a2 = a1 + M_PI/nlat ;
-    float cs1 = cos(a1);
-    float cs2 = cos(a2);
-    float sn1 = sin(a1);
-    float sn2 = sin(a2);
-    glBegin(GL_QUAD_STRIP);
-    for ( int j = 0 ; j <= nlon ; j++ ) {
-      float a = j*2*M_PI/nlon;
-      float cs = cos(a);
-      float sn = sin(a);
-      float x1 = cs1*cs;
-      float z1 = cs1*sn;
-      float x2 = cs2*cs;
-      float z2 = cs2*sn;
-      glNormal3f(x1,sn1,z1);
-      glVertex3f(rayon*x1,rayon*sn1,rayon*z1);
-      glNormal3f(x2,sn2,z2);
-      glVertex3f(rayon*x2,rayon*sn2,rayon*z2); }
-    glEnd(); }
->>>>>>> V1.2_A
 }
 
 
@@ -548,63 +478,6 @@ void cube(float c)
 //construction cube (fonctionne) avec coordonnes Textures
 void cubeT(float c)
 {      glColor3f(1.,1.,1.);
-      glPushMatrix();
-   //glNormal3f(0.0F,0.0F,1.0F);
-   
-    glBegin(GL_POLYGON);
-    glNormal3f(0.0F,0.0F,-1.0F);
-       glTexCoord2f(0.,0.);glVertex3f(c,c,-c);
-       glTexCoord2f(0.,1.);glVertex3f(c,-c,-c);
-       glTexCoord2f(1.,0.);glVertex3f(-c,-c,-c);
-       glTexCoord2f(1.,1.);glVertex3f(-c,c,-c);
-      glEnd();
-      
-       glBegin(GL_POLYGON);
-        glNormal3f(0.0F,0.0F,1.0F);
-      glTexCoord2f(0.,0.);glVertex3f(c,c,c);
-      glTexCoord2f(0.,1.);glVertex3f(-c,c,c);
-      glTexCoord2f(1.,0.);glVertex3f(-c,-c,c);
-      glTexCoord2f(1.,1.);glVertex3f(c,-c,c); 
-      glEnd();
-      
-      glBegin(GL_POLYGON);
-       glNormal3f(-1.0F,0.0F,0.0F);
-      glTexCoord2f(0.,0.);glVertex3f(-c,c,-c);
-      glTexCoord2f(0.,1.);glVertex3f(-c,-c,-c);
-      glTexCoord2f(1.,0.);glVertex3f(-c,-c,c);
-      glTexCoord2f(1.,1.);glVertex3f(-c,c,c);
-      glEnd(); 
-      
-      glBegin(GL_POLYGON);
-        glNormal3f(1.0F,0.0F,0.0F);
-      glTexCoord2f(0.,0.);glVertex3f(c,c,c);
-      glTexCoord2f(0.,1.);glVertex3f(c,-c,c);
-      glTexCoord2f(1.,0.);glVertex3f(c,-c,-c);
-      glTexCoord2f(1.,1.);glVertex3f(c,c,-c);
-      glEnd();  
-      
-       glBegin(GL_POLYGON);
-      glNormal3f(0.0F,-1.0F,0.0F);
-      glTexCoord2f(0.,0.);glVertex3f(-c,-c,c);
-      glTexCoord2f(0.,1.);glVertex3f(-c,-c,-c);
-      glTexCoord2f(1.,0.);glVertex3f(c,-c,-c);
-      glTexCoord2f(1.,1.);glVertex3f(c,-c,c); 
-      glEnd();  
-      glBegin(GL_POLYGON);
-       glNormal3f(0.0F,1.0F,0.0F);
-      glTexCoord2f(0.,0.);glVertex3f(c,c,c);
-      glTexCoord2f(0.,1.);glVertex3f(c,c,-c);
-      glTexCoord2f(1.,0.);glVertex3f(-c,c,-c);
-      glTexCoord2f(1.,1.);glVertex3f(-c,c,c); 
-       glEnd();
- 
-  glPopMatrix();
-
-}
-
-//construction cube (fonctionne) avec coordonnes Textures
-void cubeT(float c)
-{
       glPushMatrix();
    //glNormal3f(0.0F,0.0F,1.0F);
    

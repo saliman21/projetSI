@@ -64,6 +64,7 @@ void CatmullRom()
   glVertex3f(P[i].x,Y,	P[i].y);
   }
   glEnd();*/
+
   
   
   if(N>=3)

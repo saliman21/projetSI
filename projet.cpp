@@ -15,13 +15,19 @@
 
  
 void affichage();  
-void clavier(unsigned char touche,int x,int y);  
+void clavier(unsigned char touche,int x,int y); 
+void clavier2(int touche, int x, int y); 
 void reshape(int x,int y);  
 void idle();  
 void mouse(int bouton,int etat,int x,int y);  
 void mousemotion(int x,int y);  
 void Repere();
 void Initialise();
+void CamOn();
+
+void AnimationRobots(void);
+
+
 
 void Initialise()
 {
@@ -30,22 +36,22 @@ void Initialise()
   glutPostRedisplay();
 }
 
-
-
+void CamOn()
+{
+	gluLookAt(Look_x, Look_y, Look_z, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	}
 int main(int argc,char **argv)  
 {  	
-
-		
   
   glutInit(&argc,argv);  
-  glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH |GLUT_DOUBLE);  
-  glutInitWindowPosition(200,200);  
-  glutInitWindowSize(600,600);  
+  glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH |GLUT_DOUBLE | GLUT_DEPTH);  
+  glutInitWindowPosition(20,20);  
+  glutInitWindowSize(1000,1000);  
   glutCreateWindow("Projet 17-18 chez Adele"); 
   Initialise();
   lumieres();
    
-  glClearColor(0.0, 0.0, 0.0, 1.0); 
+  glClearColor(0.8, 0.8, 0.8, 20);
   glColor3f(1.0,1.0,1.0);  
   glPointSize(2.0); 
   glShadeModel(GL_FLAT); 
@@ -54,44 +60,42 @@ int main(int argc,char **argv)
   /*Inittialisation des textures*/
   
   glutDisplayFunc(affichage);  
-  glutKeyboardFunc(clavier);  
+  glutKeyboardFunc(clavier); 
+  glutSpecialFunc(clavier2); 
   glutReshapeFunc(reshape);  
   glutMouseFunc(mouse);  
   glutMotionFunc(mousemotion); 
-
+  glutIdleFunc(AnimationRobots);
+  
+	createMenu() ;
   glutMainLoop();  
   return 0;  
 }  
 
+
+
 void affichage()  
 {  
-  /*Application des transfos de visualisation */  
-  //glRotated(r,0.0,1.0,0.0);  
-  //glTranslatef(-px,0.0,-pz);  
-   
   /* effacement de l'image avec la couleur de fond */  
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  
+ glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  glOrtho(-zoom,zoom,-zoom,zoom,-zoom,zoom);
-  
-  /*glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-  gluLookAt(0.0, 1.0, 1.5, 0., 0., 0.0, 0.0, 1.0, 0.0);*/
+ 
+	gluPerspective(70.0, float(1000/1000),  0.1, -10.0);
+    glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	CamOn();
   glRotatef(-angley,1.0,0.0,0.0);  
   glRotatef(-anglex,0.0,1.0,0.0);  
   
+	glPushMatrix();
+    affichageScene();
+	glPopMatrix();
+    Repere();
   
-  glPushMatrix();
-  affichageScene();
-  glPopMatrix();
- //Repère
-   // Repere();
-  /*glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  gluPerspective(70, 1, 0.001, 10);*/
     glFlush();  
-  //glutPostRedisplay(); 
+  glutPostRedisplay(); 
   /* On echange les buffers */  
   glutSwapBuffers();  
 }  
