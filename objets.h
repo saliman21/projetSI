@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include<stdio.h>  
 #include<stdlib.h>  
 #include <GL/glut.h>
@@ -27,6 +28,9 @@ void assiette(); //aFaire
 =======
 
 void chaise();
+=======
+void chaise(); 
+>>>>>>> V1.2S
 void table(); 
 void piedTable(); 
 void carton(int x); 
@@ -35,6 +39,7 @@ void lampe();
 void donuts(); 
 void truffes(); 
 void tuiles(); //aFaire
+<<<<<<< HEAD
 void livre(); //Afaire
 void robots(); 
 void sucre (); 
@@ -75,6 +80,44 @@ void robots()
 {}
 
 >>>>>>> V1.2_M
+=======
+void livre(); //aFaire
+void robots(); //aFaire
+void sucre (); 
+void tasse(); 
+void theiere(float x); 
+void assiette(); //aFaire
+
+void assiette()
+{
+}
+
+
+void theiere(float x)
+{theire(x);}
+
+
+void livre()
+{
+}
+
+void tuiles()
+{
+}
+
+void truffes()
+{
+  //Ellipsoloide(2.0,5.0);
+  glScalef(1, 4, 1);
+  sphere (1.0,20,30);
+}
+
+
+void robots()
+{
+}
+
+>>>>>>> V1.2S
 void sucre()
 {
 	glPushMatrix();
@@ -88,6 +131,10 @@ void sucre()
 
 void donuts()
 {
+<<<<<<< HEAD
+=======
+tore(0.1,0.2,1);
+>>>>>>> V1.2S
 }
 
 void tasse()
@@ -270,6 +317,7 @@ glRotatef(5.,0.,0.,1.);
 tore(0.5,3,2);
 glPopMatrix(); 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
 
@@ -278,6 +326,11 @@ glPopMatrix();
 
 
 >>>>>>> V1.2_M
+=======
+
+
+
+>>>>>>> V1.2S
   
   
 }
